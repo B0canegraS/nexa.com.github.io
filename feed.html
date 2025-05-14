@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ProNet - Red Profesional Avanzada</title>
+    <link rel="icon" href="LOGO PEQUEÑO NEXA.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#1E3D59", secondary: "#17A2B8" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8F9FA;
+      }
+      h1, h2, h3, h4, h5, h6 {
+      font-family: 'Poppins', sans-serif;
+      }
+      input[type="checkbox"], input[type="radio"] {
+      display: none;
+      }
+      .custom-checkbox {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background-color: white;
+      border: 2px solid #DEE2E6;
+      border-radius: 4px;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      }
+      input[type="checkbox"]:checked + .custom-checkbox {
+      background-color: #1E3D59;
+      border-color: #1E3D59;
+      }
+      input[type="checkbox"]:checked + .custom-checkbox::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 6px;
+      width: 4px;
+      height: 8px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      }
+      .custom-radio {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background-color: white;
+      border: 2px solid #DEE2E6;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      }
+      input[type="radio"]:checked + .custom-radio {
+      border-color: #1E3D59;
+      }
+      input[type="radio"]:checked + .custom-radio::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 8px;
+      height: 8px;
+      background-color: #1E3D59;
+      border-radius: 50%;
+      }
+      .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      }
+      .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #DEE2E6;
+      transition: .4s;
+      border-radius: 24px;
+      }
+      .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      }
+      input:checked + .switch-slider {
+      background-color: #1E3D59;
+      }
+      input:checked + .switch-slider:before {
+      transform: translateX(20px);
+      }
+      .custom-range {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 5px;
+      background: #DEE2E6;
+      outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #1E3D59;
+      cursor: pointer;
+      }
+      .custom-range::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #1E3D59;
+      cursor: pointer;
+      border: none;
+      }
+      .search-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(30, 61, 89, 0.2);
+      }
+      .search-input::placeholder {
+      color: #9CA3AF;
+      }
+      .card-shadow {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 200px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      z-index: 50;
+      border-radius: 8px;
+      overflow: hidden;
+      }
+      .dropdown:hover .dropdown-content {
+      display: block;
+      }
+      .tooltip {
+      position: relative;
+      }
+      .tooltip-text {
+      visibility: hidden;
+      width: 120px;
+      background-color: #1E3D59;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -60px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 12px;
+      }
+      .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+      }
+      .chat-window {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      height: 400px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+      overflow: hidden;
+      }
+      .message-bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      margin-bottom: 8px;
+      }
+      .message-sent {
+      background-color: #1E3D59;
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+      }
+      .message-received {
+      background-color: #E9ECEF;
+      color: #1E3D59;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+      }
+      .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #FD7E14;
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      }
+      .skill-bar {
+      height: 8px;
+      background-color: #E9ECEF;
+      border-radius: 4px;
+      overflow: hidden;
+      }
+      .skill-progress {
+      height: 100%;
+      background-color: #1E3D59;
+      border-radius: 4px;
+      }
+      .feed-filter-active {
+      color: #1E3D59;
+      border-bottom: 2px solid #1E3D59;
+      }
+    </style>
+  </head>
+  <body>
+
+    <header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-50">
+      <div
+        class="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto"
+      >
+    
+        <div class="flex items-center">
+          <a href="#" class="text-primary font-['Pacifico'] text-2xl mr-8" 
+            > </a
+          >
+
+
+         <div class="flex items-center">
+        <a href="#">
+        <img src="LOGO PEQUEÑO NEXA.png" alt="Logo" class="h-8 w-auto mr-4" />
+        </a>
+      </div>
+
+
+
+      
+          <div class="relative hidden md:block">
+            <input
+              type="text"
+              class="search-input bg-gray-100 w-96 pl-10 pr-4 py-2 rounded-full border-none text-sm"
+              placeholder="Buscar personas, empleos, empresas..."
+            />
+            <div
+              class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-500"
+            >
+              <i class="ri-search-line"></i>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="flex items-center space-x-1 md:space-x-4">
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-home-5-line ri-lg"></i>
+            </div>
+            <span class="hidden md:block text-xs text-center mt-1">Inicio</span>
+          </a>
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-team-line ri-lg"></i>
+            </div>
+            <span class="hidden md:block text-xs text-center mt-1">Mi Red</span>
+          </a>
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-briefcase-4-line ri-lg"></i>
+            </div>
+            <span class="hidden md:block text-xs text-center mt-1"
+              >Empleos</span
+            >
+          </a>
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-message-3-line ri-lg"></i>
+            </div>
+            <span class="notification-badge">3</span>
+            <span class="hidden md:block text-xs text-center mt-1"
+              >Mensajes</span
+            >
+          </a>
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-notification-3-line ri-lg"></i>
+            </div>
+            <span class="notification-badge">8</span>
+            <span class="hidden md:block text-xs text-center mt-1"
+              >Notificaciones</span
+            >
+          </a>
+     
+          <div class="dropdown relative">
+            <button class="flex items-center space-x-1">
+              <img
+                src="https://www.atptour.com/-/media/alias/player-headshot/gb88"
+                alt="Perfil"
+                class="w-9 h-9 rounded-full object-cover border-2 border-gray-200"
+              />
+              <span class="hidden md:block text-xs">
+                <span class="block font-medium">Gianluca Bocanegra</span>
+                <span class="block text-gray-500">Mi Perfil</span>
+              </span>
+            </button>
+            <div class="dropdown-content right-0 mt-2">
+              <div class="p-3 border-b border-gray-100">
+                <div class="flex items-center space-x-3">
+                  <img
+                    src="https://www.atptour.com/-/media/alias/player-headshot/gb88"
+                    alt="Perfil"
+                    class="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <h4 class="font-medium">Gianluca Bocanegra</h4>
+                    <p class="text-sm text-gray-500">Analyst</p>
+                  </div>
+                </div>
+                <a
+                  href="perfil.html"
+                  data="true"
+                  class="block"
+                >
+                  <button
+                    class="mt-2 w-full py-1.5 text-primary border border-primary rounded-button text-sm font-medium hover:bg-primary hover:text-white transition-colors whitespace-nowrap"
+                  >
+                    Ver perfil
+                  </button>
+                </a>
+              </div>
+              <ul class="py-2">
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >Configuración</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >Ayuda</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >Idioma</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >Cerrar sesión</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="pt-24 pb-16 px-4">
+      <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
+     
+        <aside class="w-full lg:w-72 space-y-4">
+     
+          <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div class="h-20 bg-primary"></div>
+            <div class="px-4 pt-0 pb-4 relative">
+              <img
+                src="https://www.atptour.com/-/media/alias/player-headshot/gb88"
+                alt="Perfil"
+                class="w-20 h-20 rounded-full border-4 border-white absolute -top-10 left-1/2 transform -translate-x-1/2 object-cover"
+              />
+              <div class="mt-12 text-center">
+                <h3 class="font-semibold">Gianluca Bocanegra</h3>
+                <p class="text-sm text-gray-500">Analyst</p>
+              </div>
+              <div class="mt-4 pt-4 border-t border-gray-100">
+                <div class="flex justify-between text-sm">
+                  <span class="text-gray-500">Vistas del perfil</span>
+                  <span class="font-medium text-primary">183</span>
+                </div>
+                <div class="flex justify-between text-sm mt-2">
+                  <span class="text-gray-500">Apariciones en búsquedas</span>
+                  <span class="font-medium text-primary">237</span>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <h3 class="font-medium mb-3">Accesos rápidos</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-sm text-gray-700 hover:text-primary"
+                >
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-3 text-gray-500"
+                  >
+                    <i class="ri-bookmark-line"></i>
+                  </div>
+                  Elementos guardados
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-sm text-gray-700 hover:text-primary"
+                >
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-3 text-gray-500"
+                  >
+                    <i class="ri-group-line"></i>
+                  </div>
+                  Grupos
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-sm text-gray-700 hover:text-primary"
+                >
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-3 text-gray-500"
+                  >
+                    <i class="ri-calendar-line"></i>
+                  </div>
+                  Eventos
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="flex items-center text-sm text-gray-700 hover:text-primary"
+                >
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-3 text-gray-500"
+                  >
+                    <i class="ri-hashtag"></i>
+                  </div>
+                  Hashtags seguidos
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-medium">Mis grupos</h3>
+              <a href="#" class="text-sm text-primary hover:underline"
+                >Ver todos</a
+              >
+            </div>
+            <ul class="space-y-3">
+              <li>
+                <a href="#" class="flex items-center text-sm">
+                  <div
+                    class="w-10 h-10 bg-gray-200 rounded-lg mr-3 flex items-center justify-center text-gray-500"
+                  >
+                    <i class="ri-code-s-slash-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block"
+                      >Delta Kappa Epsilon (DKE)</span
+                    >
+                    <span class="text-xs text-gray-500">2.345 miembros</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center text-sm">
+                  <div
+                    class="w-10 h-10 bg-gray-200 rounded-lg mr-3 flex items-center justify-center text-gray-500"
+                  >
+                    <i class="ri-building-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block">Hedge Fund Group</span>
+                    <span class="text-xs text-gray-500">1.876 miembros</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="flex items-center text-sm">
+                  <div
+                    class="w-10 h-10 bg-gray-200 rounded-lg mr-3 flex items-center justify-center text-gray-500"
+                  >
+                    <i class="ri-robot-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <span class="font-medium block">Wall Street Oasis</span>
+                    <span class="text-xs text-gray-500">25.421 miembros</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+   
+          <div class="bg-white rounded-lg shadow-sm p-4 hidden md:block">
+            <h3 class="font-medium mb-3">Estadísticas de actividad</h3>
+            <div id="activityChart" class="h-48"></div>
+          </div>
+        </aside>
+   
+        <div class="flex-1 space-y-4">
+   
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="flex items-center space-x-3">
+              <img
+                src="https://www.atptour.com/-/media/alias/player-headshot/gb88"
+                alt="Perfil"
+                class="w-10 h-10 rounded-full object-cover"
+              />
+              <input
+                type="text"
+                class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm border-none"
+                placeholder="Iniciar una publicación"
+              />
+            </div>
+            <div
+              class="flex justify-between mt-4 pt-3 border-t border-gray-100"
+            >
+              <button
+                class="flex items-center text-sm text-gray-600 hover:bg-gray-100 px-3 py-1.5 rounded-button whitespace-nowrap"
+              >
+                <div
+                  class="w-5 h-5 flex items-center justify-center mr-2 text-blue-500"
+                >
+                  <i class="ri-image-line"></i>
+                </div>
+                Foto
+              </button>
+              <button
+                class="flex items-center text-sm text-gray-600 hover:bg-gray-100 px-3 py-1.5 rounded-button whitespace-nowrap"
+              >
+                <div
+                  class="w-5 h-5 flex items-center justify-center mr-2 text-green-500"
+                >
+                  <i class="ri-video-line"></i>
+                </div>
+                Video
+              </button>
+              <button
+                class="flex items-center text-sm text-gray-600 hover:bg-gray-100 px-3 py-1.5 rounded-button whitespace-nowrap"
+              >
+                <div
+                  class="w-5 h-5 flex items-center justify-center mr-2 text-orange-500"
+                >
+                  <i class="ri-calendar-event-line"></i>
+                </div>
+                Evento
+              </button>
+              <button
+                class="flex items-center text-sm text-gray-600 hover:bg-gray-100 px-3 py-1.5 rounded-button whitespace-nowrap"
+              >
+                <div
+                  class="w-5 h-5 flex items-center justify-center mr-2 text-red-500"
+                >
+                  <i class="ri-article-line"></i>
+                </div>
+                Artículo
+              </button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-sm p-2 flex justify-center">
+            <div class="flex space-x-1">
+              <button
+                class="px-4 py-2 text-sm font-medium feed-filter-active whitespace-nowrap"
+              >
+                Relevantes
+              </button>
+              <button
+                class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+              >
+                Recientes
+              </button>
+              <button
+                class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 whitespace-nowrap"
+              >
+                Siguiendo
+              </button>
+            </div>
+          </div>
+      
+          <div class="space-y-4">
+        
+            <div class="bg-white rounded-lg shadow-sm">
+      
+              <div class="p-4 flex items-start space-x-3">
+                <img
+                  src="https://peruretail.sfo3.cdn.digitaloceanspaces.com/wp-content/uploads/crp-2-1140x570.jpg"
+                  alt="Perfil"
+                  class="w-12 h-12 rounded-full object-cover"
+                />
+                <div>
+                  <div class="flex items-center">
+                    <h4 class="font-medium">Carlos Rodriguez Pastor</h4>
+                    <div
+                      class="w-4 h-4 flex items-center justify-center mx-1 text-primary"
+                    >
+                      <i class="ri-verified-badge-fill"></i>
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-500">
+                    CEO of Intercorp
+                  </p>
+                  <p class="text-xs text-gray-400 mt-1">
+                    Hace 2 horas • <i class="ri-earth-line ri-sm"></i>
+                  </p>
+                </div>
+                <div class="ml-auto">
+                  <button
+                    class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                  >
+                    <i class="ri-more-fill"></i>
+                  </button>
+                </div>
+              </div>
+    
+              <div class="px-4 pb-2">
+                <p class="text-sm mb-3">
+                  Emocionados de anunciar que estamos abriendo nuevas posiciones
+                  en nuestro equipo de desarrollo. Buscamos profesionales
+                  apasionados por la tecnología y la innovación. ¡Comparte con
+                  tu red! 🚀 <a href="#" class="text-primary">#Empleos</a>
+                  <a href="#" class="text-primary">#Tecnología</a>
+                  <a href="#" class="text-primary">#Desarrollo</a>
+                </p>
+                <img
+                  src="https://images.pexels.com/photos/3182773/pexels-photo-3182773.jpeg?cs=srgb&dl=gente-trabajando-macbook-sentado-3182773.jpg&fm=jpg"
+                  alt="Equipo de desarrollo"
+                  class="w-full h-auto rounded-lg object-cover"
+                />
+              </div>
+   
+              <div
+                class="px-4 py-2 flex justify-between text-xs text-gray-500 border-b border-gray-100"
+              >
+                <div class="flex items-center">
+                  <div class="flex -space-x-1 mr-2">
+                    <div
+                      class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white"
+                    >
+                      <i class="ri-thumb-up-fill ri-xs"></i>
+                    </div>
+                    <div
+                      class="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-white"
+                    >
+                      <i class="ri-heart-fill ri-xs"></i>
+                    </div>
+                  </div>
+                  <span>128</span>
+                </div>
+                <div>
+                  <span>36 comentarios • 24 compartidos</span>
+                </div>
+              </div>
+      
+              <div class="px-2 py-1 flex justify-between">
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-thumb-up-line"></i>
+                  </div>
+                  <span class="text-sm">Me gusta</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-chat-1-line"></i>
+                  </div>
+                  <span class="text-sm">Comentar</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-share-forward-line"></i>
+                  </div>
+                  <span class="text-sm">Compartir</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-send-plane-line"></i>
+                  </div>
+                  <span class="text-sm">Enviar</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm">
+     
+              <div class="p-4 flex items-start space-x-3">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Jensen_Huang_20231109.jpg/500px-Jensen_Huang_20231109.jpg"
+                  alt="Perfil"
+                  class="w-12 h-12 rounded-full object-cover"
+                />
+                <div>
+                  <div class="flex items-center">
+                    <h4 class="font-medium">Jen-Hsun Huang</h4>
+                    <div
+                      class="w-4 h-4 flex items-center justify-center mx-1 text-primary"
+                    >
+                      <i class="ri-verified-badge-fill"></i>
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-500">CEO of NVIDIA</p>
+                  <p class="text-xs text-gray-400 mt-1">
+                    Hace 5 horas • <i class="ri-earth-line ri-sm"></i>
+                  </p>
+                </div>
+                <div class="ml-auto">
+                  <button
+                    class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                  >
+                    <i class="ri-more-fill"></i>
+                  </button>
+                </div>
+              </div>
+         
+              <div class="px-4 pb-2">
+                <p class="text-sm mb-3">
+                  Acabo de publicar un artículo sobre las tendencias
+                  tecnológicas que marcarán el 2025. La inteligencia artificial
+                  y la computación cuántica están transformando el panorama
+                  empresarial. ¿Cuáles creen que serán las tecnologías más
+                  disruptivas?
+                </p>
+                <div class="border border-gray-200 rounded-lg overflow-hidden">
+                  <img
+                    src="https://creantelab.co/wp-content/uploads/2020/12/como-funciona-la-inteligencia-artificial.jpg"
+                    alt="Tendencias tecnológicas"
+                    class="w-full h-48 object-cover"
+                  />
+                  <div class="p-3">
+                    <h4 class="font-medium text-sm">
+                      Las 5 tecnologías que transformarán los negocios en 2025
+                    </h4>
+                    <p class="text-xs text-gray-500 mt-1">
+                      nvidia.com
+                    </p>
+                  </div>
+                </div>
+              </div>
+     
+              <div
+                class="px-4 py-2 flex justify-between text-xs text-gray-500 border-b border-gray-100"
+              >
+                <div class="flex items-center">
+                  <div class="flex -space-x-1 mr-2">
+                    <div
+                      class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white"
+                    >
+                      <i class="ri-thumb-up-fill ri-xs"></i>
+                    </div>
+                    <div
+                      class="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-white"
+                    >
+                      <i class="ri-lightbulb-fill ri-xs"></i>
+                    </div>
+                  </div>
+                  <span>243</span>
+                </div>
+                <div>
+                  <span>52 comentarios • 78 compartidos</span>
+                </div>
+              </div>
+      
+              <div class="px-2 py-1 flex justify-between">
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-thumb-up-line"></i>
+                  </div>
+                  <span class="text-sm">Me gusta</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-chat-1-line"></i>
+                  </div>
+                  <span class="text-sm">Comentar</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-share-forward-line"></i>
+                  </div>
+                  <span class="text-sm">Compartir</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-send-plane-line"></i>
+                  </div>
+                  <span class="text-sm">Enviar</span>
+                </button>
+              </div>
+
+              <div class="px-4 py-2 border-t border-gray-100">
+                <div class="flex items-start space-x-2 mb-3">
+                  <img
+                    src="https://th.bing.com/th/id/OIP.BIaDpZ0iH_gl29cbzg3TPQHaE7?cb=iwp2&rs=1&pid=ImgDetMain"
+                    alt="Perfil"
+                    class="w-8 h-8 rounded-full object-cover"
+                  />
+                  <div class="bg-gray-100 rounded-lg px-3 py-2 flex-1">
+                    <div class="flex items-center">
+                      <h5 class="text-sm font-medium">Jamie Dimon</h5>
+                      <span class="text-xs text-gray-500 ml-2"
+                        >Hace 1 hora</span
+                      >
+                    </div>
+                    <p class="text-sm mt-1">
+                      Excelente artículo Jen-Hsun. Creo que la IA generativa y la
+                      computación cuántica serán las que más impacto tendrán en
+                      los próximos años.
+                    </p>
+                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                      <button class="font-medium mr-3 hover:text-primary">
+                        Me gusta
+                      </button>
+                      <button class="font-medium hover:text-primary">
+                        Responder
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center">
+                  <img
+                    src="https://www.atptour.com/-/media/alias/player-headshot/gb88"
+                    alt="Perfil"
+                    class="w-8 h-8 rounded-full object-cover mr-2"
+                  />
+                  <input
+                    type="text"
+                    class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm border-none"
+                    placeholder="Escribe un comentario..."
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm">
+    
+              <div class="p-4 flex items-start space-x-3">
+                <img
+                  src="https://static.vecteezy.com/system/resources/previews/013/948/549/original/google-logo-on-transparent-white-background-free-vector.jpg"
+                  alt="Empresa"
+                  class="w-12 h-12 rounded-lg object-cover"
+                />
+                <div>
+                  <div class="flex items-center">
+                    <h4 class="font-medium">Google</h4>
+                    <div
+                      class="w-4 h-4 flex items-center justify-center mx-1 text-primary"
+                    >
+                      <i class="ri-verified-badge-fill"></i>
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-500">
+                    Empresa de Tecnología • 800,432 seguidores
+                  </p>
+                  <p class="text-xs text-gray-400 mt-1">
+                    Hace 1 día • <i class="ri-earth-line ri-sm"></i>
+                  </p>
+                </div>
+                <div class="ml-auto">
+                  <button
+                    class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100"
+                  >
+                    <i class="ri-more-fill"></i>
+                  </button>
+                </div>
+              </div>
+      
+              <div class="px-4 pb-2">
+                <p class="text-sm mb-3">
+                  Estamos orgullosos de anunciar el lanzamiento de nuestra nueva
+                  plataforma de análisis de datos basada en IA. Después de meses
+                  de desarrollo, nuestro equipo ha creado una solución que
+                  transformará la forma en que las empresas toman decisiones.
+                  <a href="#" class="text-primary">#InteligenciaArtificial</a>
+                  <a href="#" class="text-primary">#BigData</a>
+                  <a href="#" class="text-primary">#Innovación</a>
+                </p>
+                <img
+                  src="https://imagenes.20minutos.es/uploads/imagenes/2024/11/20/inteligencia-artificial-de-google.jpeg"
+                  alt="Plataforma de análisis"
+                  class="w-full h-auto rounded-lg object-cover"
+                />
+              </div>
+          
+              <div
+                class="px-4 py-2 flex justify-between text-xs text-gray-500 border-b border-gray-100"
+              >
+                <div class="flex items-center">
+                  <div class="flex -space-x-1 mr-2">
+                    <div
+                      class="w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white"
+                    >
+                      <i class="ri-thumb-up-fill ri-xs"></i>
+                    </div>
+                    <div
+                      class="w-5 h-5 rounded-full bg-red-500 flex items-center justify-center text-white"
+                    >
+                      <i class="ri-heart-fill ri-xs"></i>
+                    </div>
+                  </div>
+                  <span>342</span>
+                </div>
+                <div>
+                  <span>150K comentarios • 70K compartidos</span>
+                </div>
+              </div>
+         
+              <div class="px-2 py-1 flex justify-between">
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-thumb-up-line"></i>
+                  </div>
+                  <span class="text-sm">Me gusta</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-chat-1-line"></i>
+                  </div>
+                  <span class="text-sm">Comentar</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-share-forward-line"></i>
+                  </div>
+                  <span class="text-sm">Compartir</span>
+                </button>
+                <button
+                  class="flex items-center justify-center space-x-1 py-2 px-3 rounded-button hover:bg-gray-100 text-gray-600 flex-1 whitespace-nowrap"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-send-plane-line"></i>
+                  </div>
+                  <span class="text-sm">Enviar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="w-full lg:w-72 space-y-4">
+     
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-medium">Empleos para ti</h3>
+              <a href="#" class="text-sm text-primary hover:underline"
+                >Ver todos</a
+              >
+            </div>
+            <ul class="space-y-4">
+              <li>
+                <div class="flex items-start">
+                  <img
+                    src="https://th.bing.com/th/id/R.13a41c4320f66dddd9bd05083585a65a?rik=mSsWOIZzmebn3A&pid=ImgRaw&r=0"
+                    alt="Empresa"
+                    class="w-10 h-10 rounded-lg mr-3 object-cover"
+                  />
+                  <div>
+                    <h4 class="text-sm font-medium">
+                      Summer Analyst 
+                    </h4>
+                    <p class="text-xs text-gray-500">JpMorganChase</p>
+                    <p class="text-xs text-gray-500">
+                      New York, NY 
+                    </p>
+                    <div class="flex items-center mt-1 text-xs text-green-600">
+                      <div
+                        class="w-4 h-4 flex items-center justify-center mr-1"
+                      >
+                        <i class="ri-user-follow-line"></i>
+                      </div>
+                      <span>Coincidencia del 96%</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="flex items-start">
+                  <img
+                    src="https://www.creatisimo.net/wp-content/uploads/2020/03/new-goldman-sachs-logo-without-drastic-changes-cover2.png"
+                    alt="Empresa"
+                    class="w-10 h-10 rounded-lg mr-3 object-cover"
+                  />
+                  <div>
+                    <h4 class="text-sm font-medium">Investment Research Analyst</h4>
+                    <p class="text-xs text-gray-500">Goldman Sachs</p>
+                    <p class="text-xs text-gray-500">New York, NY</p>
+                    <div class="flex items-center mt-1 text-xs text-green-600">
+                      <div
+                        class="w-4 h-4 flex items-center justify-center mr-1"
+                      >
+                        <i class="ri-user-follow-line"></i>
+                      </div>
+                      <span>Coincidencia del 90%</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="flex items-start">
+                  <img
+                    src="https://mms.businesswire.com/media/20250508236860/en/713603/22/pershing-square-holdings.jpg"
+                    alt="Empresa"
+                    class="w-10 h-10 rounded-lg mr-3 object-cover"
+                  />
+                  <div>
+                    <h4 class="text-sm font-medium">Summer Analyst</h4>
+                    <p class="text-xs text-gray-500">Pershing Square</p>
+                    <p class="text-xs text-gray-500">New York, NY</p>
+                    <div class="flex items-center mt-1 text-xs text-green-600">
+                      <div
+                        class="w-4 h-4 flex items-center justify-center mr-1"
+                      >
+                        <i class="ri-user-follow-line"></i>
+                      </div>
+                      <span>Coincidencia del 87%</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+    
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-medium">Eventos próximos</h3>
+              <a href="#" class="text-sm text-primary hover:underline"
+                >Ver todos</a
+              >
+            </div>
+            <ul class="space-y-3">
+              <li>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 bg-primary text-white rounded-lg mr-3 flex flex-col items-center justify-center text-xs"
+                  >
+                    <span class="font-bold">27</span>
+                    <span>May</span>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-medium">
+                      Hedge Fund Networking Event
+                    </h4>
+                    <p class="text-xs text-gray-500">Virtual • 10:00 AM</p>
+                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                      <span>324 asistentes</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="flex items-start">
+                  <div
+                    class="w-10 h-10 bg-primary text-white rounded-lg mr-3 flex flex-col items-center justify-center text-xs"
+                  >
+                    <span class="font-bold">5</span>
+                    <span>June</span>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-medium">
+                      Interview with David Solomon
+                    </h4>
+                    <p class="text-xs text-gray-500">Virtual • 15:00</p>
+                    <div class="flex items-center mt-1 text-xs text-gray-500">
+                      <span>2 asistentes</span>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+      
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-medium">Personas que quizás conozcas</h3>
+              <a href="#" class="text-sm text-primary hover:underline"
+                >Ver todos</a
+              >
+            </div>
+            <ul class="space-y-4">
+              <li>
+                <div class="flex items-start">
+                  <img
+                    src="https://th.bing.com/th/id/OIP.3CWXSDAC8o7gdOqBL8RdKAHaHa?cb=iwp2&rs=1&pid=ImgDetMain"
+                    alt="Perfil"
+                    class="w-10 h-10 rounded-full mr-3 object-cover"
+                  />
+                  <div class="flex-1">
+                    <h4 class="text-sm font-medium">Warren Buffett</h4>
+                    <p class="text-xs text-gray-500">
+                      Former CEO of Berkshire Hathaway
+                    </p>
+                    <p class="text-xs text-gray-500 mt-1">
+                      152 contactos en común
+                    </p>
+                    <button
+                      class="mt-2 py-1 px-3 border border-primary text-primary text-xs rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap"
+                    >
+                      Conectar
+                    </button>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="flex items-start">
+                  <img
+                    src="https://th.bing.com/th/id/OIP.JSAeLRRDZoP0vMuoSjsimgHaJ4?cb=iwp2&rs=1&pid=ImgDetMain"
+                    alt="Perfil"
+                    class="w-10 h-10 rounded-full mr-3 object-cover"
+                  />
+                  <div class="flex-1">
+                    <h4 class="text-sm font-medium">Michael Bloomberg</h4>
+                    <p class="text-xs text-gray-500">
+                      Founder of Bloomberg
+                    </p>
+                    <p class="text-xs text-gray-500 mt-1">
+                      93 contactos en común
+                    </p>
+                    <button
+                      class="mt-2 py-1 px-3 border border-primary text-primary text-xs rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap"
+                    >
+                      Conectar
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+    
+          <div class="bg-white rounded-lg shadow-sm p-4">
+            <div class="flex justify-between items-center mb-3">
+              <h3 class="font-medium">Noticias del sector</h3>
+              <a href="#" class="text-sm text-primary hover:underline"
+                >Ver más</a
+              >
+            </div>
+            <ul class="space-y-3">
+              <li>
+                <a href="#" class="text-sm hover:text-primary"
+                  >La UE aprueba nueva regulación sobre IA que impactará a
+                  empresas tecnológicas</a
+                >
+                <p class="text-xs text-gray-500 mt-1">
+                  Hace 3 horas • 1,245 lecturas
+                </p>
+              </li>
+              <li>
+                <a href="#" class="text-sm hover:text-primary"
+                  >Las startups latinoamericanas atraen inversiones récord en el
+                  primer trimestre de 2025</a
+                >
+                <p class="text-xs text-gray-500 mt-1">
+                  Hace 12 horas • 876 lecturas
+                </p>
+              </li>
+              <li>
+                <a href="#" class="text-sm hover:text-primary"
+                  >Nueva tendencia: Empresas adoptan semana laboral de 4 días
+                  para mejorar productividad</a
+                >
+                <p class="text-xs text-gray-500 mt-1">
+                  Hace 1 día • 2,156 lecturas
+                </p>
+              </li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <div id="chatWindow" class="chat-window">
+      <div class="p-3 bg-primary text-white flex items-center justify-between">
+        <div class="flex items-center">
+          <img
+            src="https://www.goldmansachs.com/images/migrated/about-us/people-and-leadership/leadership/executive-officers/images/david-solomon-1000x1000.png"
+            alt="Perfil"
+            class="w-8 h-8 rounded-full mr-2 object-cover"
+          />
+          <div>
+            <h4 class="font-medium text-sm">David Solomon</h4>
+            <p class="text-xs opacity-80">En línea</p>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <button
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary-dark text-white"
+          >
+            <i class="ri-phone-line"></i>
+          </button>
+          <button
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary-dark text-white"
+          >
+            <i class="ri-vidicon-line"></i>
+          </button>
+          <button
+            id="closeChat"
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary-dark text-white"
+          >
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+      </div>
+      <div
+        class="flex-1 p-3 overflow-y-auto flex flex-col"
+        style="height: 300px;"
+      >
+        <div class="message-bubble message-received">
+          Hi Gianluca, I saw your profile and I am interested in discussing a partnership opportunity.
+        </div>
+        <div class="message-bubble message-sent">
+          Hi David Sure, I'd love to hear more about the collaboration, what's it about?
+        </div>
+        <div class="message-bubble message-received">
+          We are looking for an analyst for Goldman Sachs, are you available for a video call this week?
+        </div>
+        <div class="message-bubble message-sent">
+          Yes, I have availability, is Thursday at 15:00 okay?
+        </div>
+        <div class="message-bubble message-received">
+          Perfect, I'll schedule the meeting and send you the link. thanks
+        </div>
+      </div>
+      <div class="p-3 border-t border-gray-200">
+        <div class="flex items-center">
+          <div class="flex space-x-2 mr-2">
+            <button
+              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600"
+            >
+              <i class="ri-image-line"></i>
+            </button>
+            <button
+              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600"
+            >
+              <i class="ri-file-line"></i>
+            </button>
+            <button
+              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600"
+            >
+              <i class="ri-emotion-line"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm border-none"
+            placeholder="Escribe un mensaje..."
+          />
+          <button
+            class="ml-2 w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white"
+          >
+            <i class="ri-send-plane-fill"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+ 
+    <button
+      id="chatButton"
+      class="fixed bottom-5 right-5 w-12 h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center"
+    >
+      <div class="notification-badge">3</div>
+      <i class="ri-message-3-fill ri-lg"></i>
+    </button>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+
+        const activityChartEl = document.getElementById("activityChart");
+        if (activityChartEl) {
+          const activityChart = echarts.init(activityChartEl);
+          const option = {
+            animation: false,
+            tooltip: {
+              trigger: "axis",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderColor: "#E9ECEF",
+              textStyle: {
+                color: "#1f2937",
+              },
+            },
+            grid: {
+              top: 10,
+              right: 0,
+              bottom: 20,
+              left: 0,
+            },
+            xAxis: {
+              type: "category",
+              data: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+              axisLine: {
+                lineStyle: {
+                  color: "#DEE2E6",
+                },
+              },
+              axisLabel: {
+                color: "#1f2937",
+              },
+            },
+            yAxis: {
+              type: "value",
+              splitLine: {
+                lineStyle: {
+                  color: "#F8F9FA",
+                },
+              },
+              axisLabel: {
+                color: "#1f2937",
+              },
+            },
+            series: [
+              {
+                name: "Vistas del perfil",
+                type: "line",
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  width: 3,
+                  color: "rgba(87, 181, 231, 1)",
+                },
+                areaStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: "rgba(87, 181, 231, 0.3)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(87, 181, 231, 0.1)",
+                    },
+                  ]),
+                },
+                data: [12, 18, 15, 23, 28, 16, 20],
+              },
+            ],
+          };
+          activityChart.setOption(option);
+          window.addEventListener("resize", function () {
+            activityChart.resize();
+          });
+        }
+
+        const chatButton = document.getElementById("chatButton");
+        const chatWindow = document.getElementById("chatWindow");
+        const closeChat = document.getElementById("closeChat");
+        if (chatButton && chatWindow && closeChat) {
+          chatButton.addEventListener("click", function () {
+            chatWindow.style.display = "flex";
+            chatButton.style.display = "none";
+          });
+          closeChat.addEventListener("click", function () {
+            chatWindow.style.display = "none";
+            chatButton.style.display = "flex";
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

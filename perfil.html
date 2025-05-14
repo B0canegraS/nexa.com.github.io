@@ -1,0 +1,2040 @@
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexa - Perfil de Usuario</title>
+    <link rel="icon" href="LOGO PEQUEÑO NEXA.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#1E3D59", secondary: "#17A2B8" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+          font-family: 'Inter', sans-serif;
+          background-color: #F8F9FA;
+      }
+      h1, h2, h3, h4, h5, h6 {
+          font-family: 'Poppins', sans-serif;
+      }
+      input[type="checkbox"], input[type="radio"] {
+          display: none;
+      }
+      .custom-checkbox {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          background-color: white;
+          border: 2px solid #DEE2E6;
+          border-radius: 4px;
+          position: relative;
+          cursor: pointer;
+          transition: all 0.2s ease;
+      }
+      input[type="checkbox"]:checked + .custom-checkbox {
+          background-color: #1E3D59;
+          border-color: #1E3D59;
+      }
+      input[type="checkbox"]:checked + .custom-checkbox::after {
+          content: "";
+          position: absolute;
+          top: 3px;
+          left: 6px;
+          width: 4px;
+          height: 8px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+      }
+      .custom-radio {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          background-color: white;
+          border: 2px solid #DEE2E6;
+          border-radius: 50%;
+          position: relative;
+          cursor: pointer;
+          transition: all 0.2s ease;
+      }
+      input[type="radio"]:checked + .custom-radio {
+          border-color: #1E3D59;
+      }
+      input[type="radio"]:checked + .custom-radio::after {
+          content: "";
+          position: absolute;
+          top: 3px;
+          left: 3px;
+          width: 8px;
+          height: 8px;
+          background-color: #1E3D59;
+          border-radius: 50%;
+      }
+      .custom-switch {
+          position: relative;
+          display: inline-block;
+          width: 44px;
+          height: 24px;
+      }
+      .custom-switch input {
+          opacity: 0;
+          width: 0;
+          height: 0;
+      }
+      .switch-slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #DEE2E6;
+          transition: .4s;
+          border-radius: 24px;
+      }
+      .switch-slider:before {
+          position: absolute;
+          content: "";
+          height: 18px;
+          width: 18px;
+          left: 3px;
+          bottom: 3px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 50%;
+      }
+      input:checked + .switch-slider {
+          background-color: #1E3D59;
+      }
+      input:checked + .switch-slider:before {
+          transform: translateX(20px);
+      }
+      .custom-range {
+          -webkit-appearance: none;
+          width: 100%;
+          height: 6px;
+          border-radius: 5px;
+          background: #DEE2E6;
+          outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #1E3D59;
+          cursor: pointer;
+      }
+      .custom-range::-moz-range-thumb {
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #1E3D59;
+          cursor: pointer;
+          border: none;
+      }
+      .search-input:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(30, 61, 89, 0.2);
+      }
+      .search-input::placeholder {
+          color: #9CA3AF;
+      }
+      .card-shadow {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+      .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: white;
+          min-width: 200px;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+          z-index: 50;
+          border-radius: 8px;
+          overflow: hidden;
+      }
+      .dropdown:hover .dropdown-content {
+          display: block;
+      }
+      .tooltip {
+          position: relative;
+      }
+      .tooltip-text {
+          visibility: hidden;
+          width: 120px;
+          background-color: #1E3D59;
+          color: white;
+          text-align: center;
+          border-radius: 6px;
+          padding: 5px;
+          position: absolute;
+          z-index: 1;
+          bottom: 125%;
+          left: 50%;
+          margin-left: -60px;
+          opacity: 0;
+          transition: opacity 0.3s;
+          font-size: 12px;
+      }
+      .tooltip:hover .tooltip-text {
+          visibility: visible;
+          opacity: 1;
+      }
+      .notification-badge {
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          background-color: #FD7E14;
+          color: white;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          font-size: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+      .skill-bar {
+          height: 8px;
+          background-color: #E9ECEF;
+          border-radius: 4px;
+          overflow: hidden;
+      }
+      .skill-progress {
+          height: 100%;
+          background-color: #1E3D59;
+          border-radius: 4px;
+      }
+      .profile-tab.active {
+          color: #1E3D59;
+          border-bottom: 2px solid #1E3D59;
+      }
+      .profile-tab-content {
+          display: none;
+      }
+      .profile-tab-content.active {
+          display: block;
+      }
+      .chat-window {
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          width: 320px;
+          height: 400px;
+          background-color: white;
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          display: none;
+          flex-direction: column;
+          z-index: 100;
+          overflow: hidden;
+      }
+      .message-bubble {
+          max-width: 80%;
+          padding: 10px 14px;
+          border-radius: 18px;
+          margin-bottom: 8px;
+      }
+      .message-sent {
+          background-color: #1E3D59;
+          color: white;
+          align-self: flex-end;
+          border-bottom-right-radius: 4px;
+      }
+      .message-received {
+          background-color: #E9ECEF;
+          color: #1E3D59;
+          align-self: flex-start;
+          border-bottom-left-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <header class="bg-white shadow-sm fixed top-0 left-0 right-0 z-50">
+      <div
+        class="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto"
+      >
+
+        <div class="flex items-center">
+          <a href="#" class="text-primary font-['Pacifico'] text-2xl mr-8" 
+            > </a
+          >
+
+
+         <div class="flex items-center">
+        <a href="#">
+        <img src="LOGO PEQUEÑO NEXA.png" alt="Logo" class="h-8 w-auto mr-4" />
+        </a>
+      </div>
+
+
+          <div class="relative hidden md:block">
+            <input
+              type="text"
+              class="search-input bg-gray-100 w-96 pl-10 pr-4 py-2 rounded-full border-none text-sm"
+              placeholder="Buscar personas, empleos, empresas..."
+            />
+            <div
+              class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-500"
+            >
+              <i class="ri-search-line"></i>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="flex items-center space-x-1 md:space-x-4">
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-home-5-line ri-lg"></i>
+            </div>
+            <span class="hidden md:block text-xs text-center mt-1">Inicio</span>
+          </a>
+
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-team-line ri-lg"></i>
+            </div>
+            <span class="hidden md:block text-xs text-center mt-1">Mi Red</span>
+          </a>
+
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-briefcase-4-line ri-lg"></i>
+            </div>
+            <span class="hidden md:block text-xs text-center mt-1"
+              >Empleos</span
+            >
+          </a>
+
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-message-3-line ri-lg"></i>
+            </div>
+            <span class="notification-badge">3</span>
+            <span class="hidden md:block text-xs text-center mt-1"
+              >Mensajes</span
+            >
+          </a>
+
+          <a
+            href="#"
+            class="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <div class="w-8 h-8 flex items-center justify-center text-gray-700">
+              <i class="ri-notification-3-line ri-lg"></i>
+            </div>
+            <span class="notification-badge">8</span>
+            <span class="hidden md:block text-xs text-center mt-1"
+              >Notificaciones</span
+            >
+          </a>
+
+
+          <div class="dropdown relative">
+            <button class="flex items-center space-x-1">
+              <img
+                src="https://www.atptour.com/-/media/alias/player-headshot/GB88"
+                alt="Perfil"
+                class="w-9 h-9 rounded-full object-cover border-2 border-gray-200"
+              />
+              <span class="hidden md:block text-xs">
+                <span class="block font-medium">Gianluca Bocanegra</span>
+                <span class="block text-gray-500">Mi Perfil</span>
+              </span>
+            </button>
+            <div class="dropdown-content right-0 mt-2">
+              <div class="p-3 border-b border-gray-100">
+                <div class="flex items-center space-x-3">
+                  <img
+                    src="https://www.atptour.com/-/media/alias/player-headshot/GB88"
+                    alt="Perfil"
+                    class="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <h4 class="font-medium">Gianluca Bocanegra</h4>
+                    <p class="text-sm text-gray-500">Research Analyst</p>
+                  </div>
+                </div>
+                <a
+                  href="https://www.atptour.com/-/media/alias/player-headshot/GB88"
+                  data="true"
+                  class="mt-2 w-full py-1.5 text-primary border border-primary rounded-button text-sm font-medium hover:bg-primary hover:text-white transition-colors whitespace-nowrap flex items-center justify-center"
+                  >Ver perfil</a
+                >
+              </div>
+              <ul class="py-2">
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >Configuración</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >Ayuda</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >Idioma</a
+                  >
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >Cerrar sesión</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+
+    <main class="pt-20 pb-16">
+
+      <div class="max-w-7xl mx-auto px-4 py-3">
+        <a
+          href="feed.html"
+          data="true"
+          class="flex items-center text-gray-600 hover:text-primary transition-colors"
+        >
+          <div class="w-5 h-5 flex items-center justify-center mr-1">
+            <i class="ri-arrow-left-line"></i>
+          </div>
+          <span>Volver</span>
+        </a>
+      </div>
+
+
+      <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto">
+
+       <div
+       class="h-60 bg-cover bg-center relative"
+      style="background-image: url('https://media.licdn.com/dms/image/v2/D5616AQERhMIUsE3GAg/profile-displaybackgroundimage-shrink_350_1400/profile-displaybackgroundimage-shrink_350_1400/0/1727388317873?e=1752710400&v=beta&t=9b6pT8GYPv4lLowyA8N811aq3w9HgEVyCyOxy5vibwM');"
+      >
+      <button
+      class="absolute bottom-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-colors"
+      >
+      <div class="w-5 h-5 flex items-center justify-center text-gray-700">
+      <i class="ri-camera-line"></i>
+      </div>
+      </button>
+      </div>
+
+<div class="px-4 relative pb-4"></div>
+
+
+            <div class="absolute -top-24 left-8">
+              <div class="relative">
+                <img
+                  src="https://www.atptour.com/-/media/alias/player-headshot/GB88"
+                  alt="Perfil"
+                  class="w-44 h-44 rounded-full border-4 border-white object-cover"
+                />
+                <button
+                  class="absolute bottom-3 right-3 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors"
+                >
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-700"
+                  >
+                    <i class="ri-camera-line"></i>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+
+            <div class="ml-56 flex justify-between items-start pt-4">
+              <div>
+                <h1 class="text-3xl font-bold">Gianluca Bocanegra</h1>
+                <p class="text-lg text-gray-600">
+                  Research Analyst at Bocanegra Asset Management | Incoming Investment Research Summer Analyst at Ingalls & Snyder
+                </p>
+                <div class="flex items-center mt-1 text-sm text-gray-500">
+                  <div class="flex items-center mr-4">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center mr-1 text-gray-500"
+                    >
+                      <i class="ri-map-pin-line"></i>
+                    </div>
+                    <span>Gambier, Ohio, United States</span>
+                  </div>
+                  <div class="flex items-center">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center mr-1 text-gray-500"
+                    >
+                      <i class="ri-link"></i>
+                    </div>
+                    <a href="#" class="text-primary hover:underline"
+                      >Goffin@gmail.com</a
+                    >
+                  </div>
+                </div>
+                <div class="flex items-center mt-3 text-sm">
+                  <div class="flex items-center mr-4">
+                    <a href="#" class="text-primary hover:underline"
+                      >+500 conexiones</a
+                    >
+                  </div>
+                  <div class="flex items-center mr-4">
+                    <a href="#" class="text-gray-600 hover:text-primary"
+                      >12 recomendaciones</a
+                    >
+                  </div>
+                  <div class="flex items-center">
+                    <div
+                      class="w-4 h-4 flex items-center justify-center mr-1 text-blue-500"
+                    >
+                      <i class="ri-eye-line"></i>
+                    </div>
+                    <span>183 vistas del perfil</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex space-x-2">
+                <button
+                  class="flex items-center justify-center px-4 py-2 bg-primary text-white rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap"
+                >
+                  <div class="w-4 h-4 flex items-center justify-center mr-1">
+                    <i class="ri-message-3-line"></i>
+                  </div>
+                  <span>Mensaje</span>
+                </button>
+                <button
+                  class="flex items-center justify-center px-4 py-2 border border-primary text-primary rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                >
+                  <div class="w-4 h-4 flex items-center justify-center mr-1">
+                    <i class="ri-user-add-line"></i>
+                  </div>
+                  <span>Conectar</span>
+                </button>
+                <div class="dropdown relative">
+                  <button
+                    class="p-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors"
+                  >
+                    <div
+                      class="w-5 h-5 flex items-center justify-center text-gray-700"
+                    >
+                      <i class="ri-more-fill"></i>
+                    </div>
+                  </button>
+                  <div class="dropdown-content right-0 mt-2 w-48">
+                    <ul class="py-2">
+                      <li>
+                        <a
+                          href="#"
+                          class="flex items-center px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          <div
+                            class="w-5 h-5 flex items-center justify-center mr-2 text-gray-500"
+                          >
+                            <i class="ri-share-line"></i>
+                          </div>
+                          Compartir perfil
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex items-center px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          <div
+                            class="w-5 h-5 flex items-center justify-center mr-2 text-gray-500"
+                          >
+                            <i class="ri-download-line"></i>
+                          </div>
+                          Guardar como PDF
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          href="#"
+                          class="flex items-center px-4 py-2 text-sm hover:bg-gray-100"
+                        >
+                          <div
+                            class="w-5 h-5 flex items-center justify-center mr-2 text-gray-500"
+                          >
+                            <i class="ri-flag-line"></i>
+                          </div>
+                          Reportar perfil
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="flex flex-col lg:flex-row gap-6">
+
+          <div class="w-full lg:w-8/12 space-y-6">
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Acerca de</h2>
+                <button
+                  class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-pencil-line"></i>
+                  </div>
+                </button>
+              </div>
+              <p class="text-gray-700">
+                Hedge fund dedicado a la gestión activa de capital con estrategias de inversión sofisticadas y orientadas a resultados. Utiliza análisis cuantitativo, modelos estadísticos avanzados y tecnología de punta para identificar oportunidades en los mercados globales. Combina investigación financiera profunda con ejecución eficiente para maximizar rendimientos ajustados al riesgo. Opera con un enfoque flexible que incluye estrategias long/short, arbitraje, trading algorítmico y gestión de activos alternativos.
+              </p>
+              <p class="text-gray-700 mt-3">
+                
+              </p>
+              <div class="mt-4 flex items-center text-sm text-primary">
+                <div class="w-4 h-4 flex items-center justify-center mr-1">
+                  <i class="ri-information-line"></i>
+                </div>
+                <span>Abierto a oportunidades laborales</span>
+              </div>
+            </div>
+
+
+            <div class="bg-white rounded-lg shadow-sm">
+              <div class="border-b border-gray-200">
+                <div class="flex overflow-x-auto">
+                  <button
+                    class="profile-tab active px-6 py-4 text-sm font-medium whitespace-nowrap"
+                    data-tab="experience"
+                  >
+                    Experiencia
+                  </button>
+                  <button
+                    class="profile-tab px-6 py-4 text-sm font-medium whitespace-nowrap"
+                    data-tab="education"
+                  >
+                    Educación
+                  </button>
+
+                  <button
+                    class="profile-tab px-6 py-4 text-sm font-medium whitespace-nowrap"
+                    data-tab="skills"
+                  >
+                    Skills
+                  </button>
+
+                  </button>
+                  <button
+                    class="profile-tab px-6 py-4 text-sm font-medium whitespace-nowrap"
+                    data-tab="certifications"
+                  >
+                    Certificaciones
+                  </button>
+                  <button
+                    class="profile-tab px-6 py-4 text-sm font-medium whitespace-nowrap"
+                    data-tab="publications"
+                  >
+                    Publicaciones
+                  </button>
+                  <button
+                    class="profile-tab px-6 py-4 text-sm font-medium whitespace-nowrap"
+                    data-tab="recommendations"
+                  >
+                    Recomendaciones
+                  </button>
+                </div>
+              </div>
+
+
+              <div id="experience-tab" class="profile-tab-content active p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <h2 class="text-xl font-semibold">Experiencia laboral</h2>
+                  <button
+                    class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-add-line"></i>
+                    </div>
+                    <span>Añadir experiencia</span>
+                  </button>
+                </div>
+
+
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://cdn.theorg.com/25ddbadd-32e8-4757-9566-e8ff5186a755_medium.jpg"
+                        alt="Ingalls & Snyder"
+                        class="w-16 h-16 rounded-lg object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <div>
+                          <h3 class="text-lg font-semibold">
+                            Incoming Investment Research Summer Analyst 
+                          </h3>
+                          <p class="text-gray-700">Ingalls & Snyder</p>
+                          <p class="text-sm text-gray-500">
+                            Feb 2025 - Presente · 4 mos
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            New York City, United States · On-Site
+                          </p>
+                        </div>
+                        <button
+                          class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+                        >
+                          <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-pencil-line"></i>
+                          </div>
+                        </button>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+                          Nobska Capital Management
+                        </p>
+  
+                        <div class="mt-4">
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Investment</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Hedge Fund</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Equity Research</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Finance</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Economics</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://bocanegrafunds.com/bocanegra.png"
+                        alt="Bocanegra Asset Management LP"
+                        class="w-16 h-16 rounded-lg object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <div>
+                          <h3 class="text-lg font-semibold">
+                            Research Analyst
+                          </h3>
+                          <p class="text-gray-700">Bocanegra Asset Management LP</p>
+                          <p class="text-sm text-gray-500">
+                            Jun 2024 - Present · 1 yr
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            Appleton, Wisconsin, United States
+                          </p>
+                        </div>
+                        <button
+                          class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+                        >
+                          <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-pencil-line"></i>
+                          </div>
+                        </button>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+                          Long only research analyst covering industrials, materials and energy
+                        </p>
+                        
+                        <div class="mt-4">
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Trading</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Economics</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Finance</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Hedge Fund</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Finance</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div>
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://static.wixstatic.com/media/3699eb_6b34eb5890034833a3b02730555a82a0%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/3699eb_6b34eb5890034833a3b02730555a82a0%7Emv2.png"
+                        alt="Kenyon Finance Club"
+                        class="w-16 h-16 rounded-lg object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <div>
+                          <h3 class="text-lg font-semibold">
+                            Finance Club Analyst Program
+                          </h3>
+                          <p class="text-gray-700">
+                            Kenyon Finance Club
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            Jan 2025 - Apr 2025 4 mos
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            Gambier, Ohio, United States 
+                          </p>
+                        </div>
+                        <button
+                          class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+                        >
+                          <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-pencil-line"></i>
+                          </div>
+                        </button>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+                          Developed an investment thesis on Walmart Inc. (NYSE: WMT) by analyzing its market share in grocery and e-commerce, financial performance, and valuation through DCF and comps. Presented to professionals at William Blair.
+                        </p>
+                        
+                        <div class="mt-4">
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Economics</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Finance</span
+                          >
+                          <span
+                            class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+                            >Analyst</span
+                          >
+                      
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+<div id="education-tab" class="profile-tab-content p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-xl font-semibold">Educación</h2>
+    <button
+      class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+    >
+      <div class="w-4 h-4 flex items-center justify-center mr-1">
+        <i class="ri-add-line"></i>
+      </div>
+      <span>Añadir educación</span>
+    </button>
+  </div>
+
+
+  <div class="mb-8 border-b border-gray-100 pb-6">
+    <div class="flex">
+      <div class="mr-4">
+        <img
+          src="https://www.kenyon.edu/files/callouts/classic-xxsml-white.jpg"
+          alt="Kenyon College Logo"
+          class="w-16 h-16 rounded-lg object-cover"
+        />
+      </div>
+      <div class="flex-1">
+        <div class="flex justify-between">
+          <div>
+            <h3 class="text-lg font-semibold">Kenyon College</h3>
+            <p class="text-gray-700">Bachelor's degree, Economics</p>
+            <p class="text-sm text-gray-500">2023 - 2027</p>
+            <p class="text-sm text-gray-500">Gambier, Ohio, United States</p>
+          </div>
+          <button
+            class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+          >
+            <div class="w-5 h-5 flex items-center justify-center">
+              <i class="ri-pencil-line"></i>
+            </div>
+          </button>
+        </div>
+        <div class="mt-4">
+          <p class="text-gray-700">
+            Actividades y grupos: Dean’s Merit List, Finance Club, Men's Tennis,
+            ITA Scholar-Athlete, Residential Advisor, Delta Kappa Epsilon
+          </p>
+          <p class="text-gray-700 mt-2">GPA: 3.99/4</p>
+          <div class="mt-4">
+            <span
+              class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+              >Economics</span
+            >
+            <span
+              class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+              >Leadership</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mb-8 border-b border-gray-100 pb-6">
+    <div class="flex">
+      <div class="mr-4">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/LSE_Logo.svg/1200px-LSE_Logo.svg.png"
+          alt="London School of Economics Logo"
+          class="w-16 h-16 rounded-lg object-cover"
+        />
+      </div>
+      <div class="flex-1">
+        <div class="flex justify-between">
+          <div>
+            <h3 class="text-lg font-semibold">
+              The London School of Economics and Political Science (LSE)
+            </h3>
+            <p class="text-gray-700">Bachelor's degree, Economics</p>
+            <p class="text-sm text-gray-500">2025 - 2026</p>
+            <p class="text-sm text-gray-500">London, England</p>
+          </div>
+          <button
+            class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+          >
+            <div class="w-5 h-5 flex items-center justify-center">
+              <i class="ri-pencil-line"></i>
+            </div>
+          </button>
+        </div>
+        <div class="mt-4">
+          <p class="text-gray-700">
+            
+          </p>
+          <p class="text-gray-700 mt-2">Member of Economics Society</p>
+          <div class="mt-4">
+            <span
+              class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+              >Finance</span
+            >
+            <span
+              class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+              >International Economics</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="mb-8 border-b border-gray-100 pb-6">
+    <div class="flex">
+      <div class="mr-4">
+        <img
+          src="https://dke.org/wp-content/uploads/2023/07/DKE_PrimaryBadge1.png"
+          alt="DKE Logo"
+          class="w-16 h-16 rounded-lg object-cover"
+        />
+      </div>
+      <div class="flex-1">
+        <div class="flex justify-between">
+          <div>
+            <h3 class="text-lg font-semibold">Delta Kappa Epsilon (DKE)</h3>
+            <p class="text-gray-700"></p>
+            <p class="text-sm text-gray-500">2024 - 2027</p>
+            <p class="text-sm text-gray-500">Gambier, Ohio, United States</p>
+          </div>
+          <button
+            class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+          >
+            <div class="w-5 h-5 flex items-center justify-center">
+              <i class="ri-pencil-line"></i>
+            </div>
+          </button>
+        </div>
+        <div class="mt-4">
+          <p class="text-gray-700">
+            
+          </p>
+          <p class="text-gray-700 mt-2"></p>
+          <div class="mt-4">
+            <span
+              class="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-medium text-gray-700 mr-2 mb-2"
+              >Leadership</span
+            >
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+              <div id="skills-tab" class="profile-tab-content p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <h2 class="text-xl font-semibold">Habilidades</h2>
+                  <button
+                    class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-add-line"></i>
+                    </div>
+                    <span>Añadir habilidad</span>
+                  </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                  <div>
+                    <h3 class="font-medium mb-4">Habilidades técnicas</h3>
+                    <ul class="space-y-4">
+                      <li>
+                        <div class="flex justify-between mb-1">
+                          <span class="font-medium">Analysis</span>
+                          <span class="text-sm text-gray-500">Avanzado</span>
+                        </div>
+                        <div class="skill-bar">
+                          <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                        <div class="mt-1 text-xs text-gray-500">
+                          Validado por 28 personas
+                        </div>
+                      </li>
+                      <li>
+                        <div class="flex justify-between mb-1">
+                          <span class="font-medium">Economics</span>
+                          <span class="text-sm text-gray-500">Avanzado</span>
+                        </div>
+                        <div class="skill-bar">
+                          <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                        <div class="mt-1 text-xs text-gray-500">
+                          Validado por 22 personas
+                        </div>
+                      </li>
+                      <li>
+                        <div class="flex justify-between mb-1">
+                          <span class="font-medium">Equity Research</span>
+                          <span class="text-sm text-gray-500">Avanzado</span>
+                        </div>
+                        <div class="skill-bar">
+                          <div class="skill-progress" style="width: 80%"></div>
+                        </div>
+                        <div class="mt-1 text-xs text-gray-500">
+                          Validado por 19 personas
+                        </div>
+                      </li>
+                      <li>
+                        
+                  </div>
+
+
+                  <div>
+                    <h3 class="font-medium mb-4">Habilidades blandas</h3>
+                    <ul class="space-y-4">
+                      <li>
+                        <div class="flex justify-between mb-1">
+                          <span class="font-medium">Liderazgo</span>
+                          <span class="text-sm text-gray-500">Avanzado</span>
+                        </div>
+                        <div class="skill-bar">
+                          <div class="skill-progress" style="width: 88%"></div>
+                        </div>
+                        <div class="mt-1 text-xs text-gray-500">
+                          Validado por 17 personas
+                        </div>
+                      </li>
+                      <li>
+                        <div class="flex justify-between mb-1">
+                          <span class="font-medium">Gestión de proyectos</span>
+                          <span class="text-sm text-gray-500">Avanzado</span>
+                        </div>
+                        <div class="skill-bar">
+                          <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                        <div class="mt-1 text-xs text-gray-500">
+                          Validado por 14 personas
+                        </div>
+                      </li>
+                      <li>
+                        <div class="flex justify-between mb-1">
+                          <span class="font-medium">Comunicación</span>
+                          <span class="text-sm text-gray-500">Avanzado</span>
+                        </div>
+                        <div class="skill-bar">
+                          <div class="skill-progress" style="width: 86%"></div>
+                        </div>
+                        <div class="mt-1 text-xs text-gray-500">
+                          Validado por 21 personas
+                        </div>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                </div>
+
+
+                <div class="mt-8">
+                  <h3 class="font-medium mb-4">Idiomas</h3>
+                  <ul class="space-y-4">
+                    <li>
+                      <div class="flex justify-between mb-1">
+                        <span class="font-medium">Español</span>
+                        <span class="text-sm text-gray-500">Nativo</span>
+                      </div>
+                      <div class="skill-bar">
+                        <div class="skill-progress" style="width: 100%"></div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="flex justify-between mb-1">
+                        <span class="font-medium">Inglés</span>
+                        <span class="text-sm text-gray-500">Avanzado (C1)</span>
+                      </div>
+                      <div class="skill-bar">
+                        <div class="skill-progress" style="width: 90%"></div>
+                      </div>
+                    </li>
+                    
+                  </ul>
+                </div>
+              </div>
+
+
+              <div id="certifications-tab" class="profile-tab-content p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <h2 class="text-xl font-semibold">Certificaciones</h2>
+                  <button
+                    class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-add-line"></i>
+                    </div>
+                    <span>Añadir certificación</span>
+                  </button>
+                </div>
+
+     
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://connect-assets.prosple.com/cdn/ff/0hL88LA0eFnXDVQPlMh485IVf4noniCPboM_8tqY6rI/1741345772/public/styles/scale_and_crop_center_299x168/public/2025-03/1741320533582_JPMC%20Square%20Logo.png?itok=qD76wdq2"
+                        alt="AWS"
+                        class="w-16 h-16 rounded-lg object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <div>
+                          <h3 class="text-lg font-semibold">
+                            Excel Skills
+                          </h3>
+                          <p class="text-gray-700">JPMorganChase</p>
+                          <p class="text-sm text-gray-500">
+                            Issued Oct 2024
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            Credential ID C123454321
+                          </p>
+                        </div>
+                        <button
+                          class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+                        >
+                          <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-pencil-line"></i>
+                          </div>
+                        </button>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+
+                        </p>
+                        <a
+                          href="#"
+                          class="text-primary hover:underline mt-2 inline-block"
+                          >Ver credencial</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://cdn.theorg.com/25ddbadd-32e8-4757-9566-e8ff5186a755_medium.jpg"
+                        alt="Google Cloud"
+                        class="w-16 h-16 rounded-lg object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <div>
+                          <h3 class="text-lg font-semibold">
+                            Machine Learning
+                          </h3>
+                          <p class="text-gray-700">Ingalls & Snyder</p>
+                          <p class="text-sm text-gray-500">
+                            Issued Jul 2025
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            Credential ID c123454321
+                          </p>
+                        </div>
+                        <button
+                          class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+                        >
+                          <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-pencil-line"></i>
+                          </div>
+                        </button>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+
+                        </p>
+                        <a
+                          href="#"
+                          class="text-primary hover:underline mt-2 inline-block"
+                          >Ver credencial</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div>
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://learningabroad.utoronto.ca/wp-content/uploads/LSE_Logo.svg.png"
+                        alt="TensorFlow"
+                        class="w-16 h-16 rounded-lg object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <div>
+                          <h3 class="text-lg font-semibold">
+                            Economics Student
+                          </h3>
+                          <p class="text-gray-700">The London School of Economics (LSE)</p>
+                          <p class="text-sm text-gray-500">
+                            Issued Agu 2025
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            Credential ID c123454321
+                          </p>
+                        </div>
+                        <button
+                          class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+                        >
+                          <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-pencil-line"></i>
+                          </div>
+                        </button>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+
+                        </p>
+                        <a
+                          href="#"
+                          class="text-primary hover:underline mt-2 inline-block"
+                          >Ver credencial</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div id="publications-tab" class="profile-tab-content p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <h2 class="text-xl font-semibold">Publicaciones</h2>
+                  <button
+                    class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                  >
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-add-line"></i>
+                    </div>
+                    <span>Añadir publicación</span>
+                  </button>
+                </div>
+
+
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwqq5Ru3K7LJtf_5dnjl25nDS-04Pgqi8Z4Q&s"
+                        alt="Publicación"
+                        class="w-24 h-32 rounded-lg object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <div>
+                          <h3 class="text-lg font-semibold">
+                            My next step
+                          </h3>
+                          <p class="text-gray-700">
+                            The London School of Economics (LSE)
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            Published: May 4
+                          </p>
+                          <div
+                            class="flex items-center mt-1 text-sm text-gray-500"
+                          >
+                            <div
+                              class="w-4 h-4 flex items-center justify-center mr-1 text-gray-500"
+                            >
+                              <i class="ri-eye-line"></i>
+                            </div>
+                            <span>815 Views</span>
+                          </div>
+                        </div>
+                        <button
+                          class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+                        >
+                          <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-pencil-line"></i>
+                          </div>
+                        </button>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+                          I’m excited to share that I’ll be attending the The London School of Economics and Political Science (LSE) for the 2025–2026 academic year. I look forward to studying in one of the world’s top economics schools and taking advantage of this unique opportunity.
+                        </p>
+                        <a
+                          href="#"
+                          class="text-primary hover:underline mt-2 inline-block"
+                          >Leer publicación</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://media.licdn.com/dms/image/v2/D4E0BAQHLQKWDoMwq_w/company-logo_200_200/company-logo_200_200/0/1736262220105/ingallsandsnyder_logo?e=2147483647&v=beta&t=YFYL_G8k8xKMYCutJswyW313lwVEX9NkyXWxTwON_WE"
+                        alt="Publicación"
+                        class="w-24 h-32 rounded-lg object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div class="flex justify-between">
+                        <div>
+                          <h3 class="text-lg font-semibold">
+                            Incoming Investment Research Summer Analyst
+                          </h3>
+                          <p class="text-gray-700">Ingalls & Snyder</p>
+                          <p class="text-sm text-gray-500">
+                            Published: Abr 22
+                          </p>
+                          <div
+                            class="flex items-center mt-1 text-sm text-gray-500"
+                          >
+                            <div
+                              class="w-4 h-4 flex items-center justify-center mr-1 text-gray-500"
+                            >
+                              <i class="ri-eye-line"></i>
+                            </div>
+                            <span>743 lecturas</span>
+                          </div>
+                        </div>
+                        <button
+                          class="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors h-10"
+                        >
+                          <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-pencil-line"></i>
+                          </div>
+                        </button>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+                          I’m excited to share that this summer, I’ll be joining Ingalls & Snyder at their New York City headquarters as an Investment Research Summer Analyst, focusing on global equities.
+                        </p>
+                        <a
+                          href="#"
+                          class="text-primary hover:underline mt-2 inline-block"
+                          >Leer publicación</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                
+
+
+              <div id="recommendations-tab" class="profile-tab-content p-6">
+                <div class="flex justify-between items-center mb-6">
+                  <h2 class="text-xl font-semibold">Recomendaciones</h2>
+                  <div class="flex space-x-2">
+                    <button
+                      class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                    >
+                      <div
+                        class="w-4 h-4 flex items-center justify-center mr-1"
+                      >
+                        <i class="ri-user-received-line"></i>
+                      </div>
+                      <span>Solicitar recomendación</span>
+                    </button>
+                    <button
+                      class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-button hover:bg-gray-50 transition-colors whitespace-nowrap"
+                    >
+                      <div
+                        class="w-4 h-4 flex items-center justify-center mr-1"
+                      >
+                        <i class="ri-user-shared-line"></i>
+                      </div>
+                      <span>Dar recomendación</span>
+                    </button>
+                  </div>
+                </div>
+
+
+                <div class="flex border-b border-gray-200 mb-6">
+                  <button
+                    class="px-4 py-2 text-sm font-medium text-primary border-b-2 border-primary"
+                  >
+                    Recibidas (12)
+                  </button>
+                  <button
+                    class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700"
+                  >
+                    Dadas (8)
+                  </button>
+                </div>
+
+
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/0/07/Valeant_Pharmaceuticals%27_Business_Model_%28headshot%29.jpg"
+                        alt="Perfil"
+                        class="w-16 h-16 rounded-full object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div>
+                        <h3 class="text-lg font-semibold">
+                          Giacomo Bocanegra
+                        </h3>
+                        <p class="text-gray-700">
+                          CEO of BAM
+                        </p>
+                        <p class="text-sm text-gray-500">14 de marzo de 2025</p>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+                          Tuve el placer de trabajar con Gianluca en varios
+                          proyectos estratégicos. Su conocimiento técnico es
+                          excepcional, pero lo que realmente lo distingue es su
+                          capacidad para traducir conceptos complejos en
+                          soluciones prácticas.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="mb-8 border-b border-gray-100 pb-6">
+                  <div class="flex">
+                    <div class="mr-4">
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Mark_Zuckerberg_at_the_37th_G8_Summit_in_Deauville_018_v1.jpg/1200px-Mark_Zuckerberg_at_the_37th_G8_Summit_in_Deauville_018_v1.jpg"
+                        alt="Perfil"
+                        class="w-16 h-16 rounded-full object-cover"
+                      />
+                    </div>
+                    <div class="flex-1">
+                      <div>
+                        <h3 class="text-lg font-semibold">Salvador Bocanegra</h3>
+                        <p class="text-gray-700">CEO & Co-Founder of Nexa</p>
+                        <p class="text-sm text-gray-500">
+                          22 de enero de 2025
+                        </p>
+                      </div>
+                      <div class="mt-4">
+                        <p class="text-gray-700">
+                          Gianluca es uno de los profesionales más destacados con
+                          los que he tenido la oportunidad de colaborar. Durante
+                          nuestro tiempo juntos en Innovación Digital, demostró
+                          consistentemente su capacidad para resolver problemas
+                          complejos con soluciones elegantes y eficientes.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                
+                </div>
+
+                <div class="mt-6 text-center">
+                  <button class="text-primary hover:underline">
+                    Ver más recomendaciones
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    
+          <div class="w-full lg:w-4/12 space-y-6">
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <h2 class="text-lg font-semibold mb-4">Visibilidad del perfil</h2>
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-medium">Perfil público</p>
+                    <p class="text-sm text-gray-500">
+                      Visible para todos los usuarios
+                    </p>
+                  </div>
+                  <label class="custom-switch">
+                    <input type="checkbox" checked />
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-medium">Modo de búsqueda de empleo</p>
+                    <p class="text-sm text-gray-500">
+                      Visible para reclutadores
+                    </p>
+                  </div>
+                  <label class="custom-switch">
+                    <input type="checkbox" checked />
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-medium">Notificaciones de visualización</p>
+                    <p class="text-sm text-gray-500">
+                      Recibir alertas cuando vean tu perfil
+                    </p>
+                  </div>
+                  <label class="custom-switch">
+                    <input type="checkbox" checked />
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="font-medium">Compartir actualizaciones</p>
+                    <p class="text-sm text-gray-500">
+                      Notificar a la red sobre cambios
+                    </p>
+                  </div>
+                  <label class="custom-switch">
+                    <input type="checkbox" />
+                    <span class="switch-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <h2 class="text-lg font-semibold mb-4">Completitud del perfil</h2>
+              <div class="mb-4">
+                <div class="flex justify-between mb-2">
+                  <span class="font-medium">Nivel avanzado</span>
+                  <span>85%</span>
+                </div>
+                <div class="h-2 bg-gray-200 rounded-full">
+                  <div
+                    class="h-2 bg-primary rounded-full"
+                    style="width: 85%"
+                  ></div>
+                </div>
+              </div>
+              <ul class="space-y-3">
+                <li class="flex items-center text-sm">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-2 text-green-500"
+                  >
+                    <i class="ri-checkbox-circle-fill"></i>
+                  </div>
+                  <span>Información básica completa</span>
+                </li>
+                <li class="flex items-center text-sm">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-2 text-green-500"
+                  >
+                    <i class="ri-checkbox-circle-fill"></i>
+                  </div>
+                  <span>Experiencia laboral añadida</span>
+                </li>
+                <li class="flex items-center text-sm">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-2 text-green-500"
+                  >
+                    <i class="ri-checkbox-circle-fill"></i>
+                  </div>
+                  <span>Educación añadida</span>
+                </li>
+                <li class="flex items-center text-sm">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-2 text-green-500"
+                  >
+                    <i class="ri-checkbox-circle-fill"></i>
+                  </div>
+                  <span>Habilidades añadidas</span>
+                </li>
+                <li class="flex items-center text-sm">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-2 text-yellow-500"
+                  >
+                    <i class="ri-error-warning-fill"></i>
+                  </div>
+                  <span>Añade más recomendaciones</span>
+                </li>
+                <li class="flex items-center text-sm">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center mr-2 text-green-500"
+                  >
+                    <i class="ri-checkbox-circle-fill"></i>
+                  </div>
+                  <span>Añade más publicaciones</span>
+                </li>
+              </ul>
+            </div>
+
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <h2 class="text-lg font-semibold mb-4">
+                Estadísticas de actividad
+              </h2>
+              <div id="activityChart" class="h-48 mb-4"></div>
+              <ul class="space-y-3">
+                <li class="flex justify-between items-center text-sm">
+                  <span>Vistas del perfil</span>
+                  <span class="font-medium">183</span>
+                </li>
+                <li class="flex justify-between items-center text-sm">
+                  <span>Apariciones en búsquedas</span>
+                  <span class="font-medium">237</span>
+                </li>
+                <li class="flex justify-between items-center text-sm">
+                  <span>Interacciones con publicaciones</span>
+                  <span class="font-medium">124</span>
+                </li>
+              </ul>
+            </div>
+
+
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold">Conexiones</h2>
+                <a href="#" class="text-primary hover:underline">Ver todas</a>
+              </div>
+              <p class="text-sm text-gray-600 mb-4">
+                +500 conexiones profesionales
+              </p>
+              <div class="grid grid-cols-3 gap-2 mb-4">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/f/f4/USAFA_Hosts_Elon_Musk_%28Image_1_of_17%29_%28cropped%29.jpg"
+                  alt="Conexión"
+                  class="w-full h-20 object-cover rounded-lg"
+                />
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/0/07/Valeant_Pharmaceuticals%27_Business_Model_%28headshot%29.jpg"
+                  alt="Conexión"
+                  class="w-full h-20 object-cover rounded-lg"
+                />
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Mark_Zuckerberg_at_the_37th_G8_Summit_in_Deauville_018_v1.jpg/1200px-Mark_Zuckerberg_at_the_37th_G8_Summit_in_Deauville_018_v1.jpg"
+                  alt="Conexión"
+                  class="w-full h-20 object-cover rounded-lg"
+                />
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/c/c0/Jeff_Bezos_talking.jpg"
+                  alt="Conexión"
+                  class="w-full h-20 object-cover rounded-lg"
+                />
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Bill_Gates_-_2023_-_P062021-967902_%28cropped%29.jpg"
+                  alt="Conexión"
+                  class="w-full h-20 object-cover rounded-lg"
+                />
+                <div
+                  class="w-full h-20 bg-gray-100 rounded-lg flex items-center justify-center text-gray-500 font-medium"
+                >
+                  +494
+                </div>
+              </div>
+              <button
+                class="w-full py-2 border border-primary text-primary rounded-button hover:bg-primary hover:text-white transition-colors whitespace-nowrap"
+              >
+                Gestionar conexiones
+              </button>
+            </div>
+
+  
+            <div class="bg-white rounded-lg shadow-sm p-6">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold">Grupos</h2>
+                <a href="#" class="text-primary hover:underline">Ver todos</a>
+              </div>
+              <ul class="space-y-4">
+                <li class="flex items-center">
+                  <div
+                    class="w-12 h-12 bg-gray-200 rounded-lg mr-3 flex items-center justify-center text-gray-500"
+                  >
+                    <i class="ri-code-s-slash-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium">Delta Kappa Epsilon (DKE)</h4>
+                    <p class="text-xs text-gray-500">2,345 miembros</p>
+                  </div>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-12 h-12 bg-gray-200 rounded-lg mr-3 flex items-center justify-center text-gray-500"
+                  >
+                    <i class="ri-building-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium">Hedge Fund Group</h4>
+                    <p class="text-xs text-gray-500">1.876 miembros</p>
+                  </div>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-12 h-12 bg-gray-200 rounded-lg mr-3 flex items-center justify-center text-gray-500"
+                  >
+                    <i class="ri-robot-line ri-lg"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-medium">Wall Street Oasis</h4>
+                    <p class="text-xs text-gray-500">25.421 miembros</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+
+    <button
+      id="chatButton"
+      class="fixed bottom-5 right-5 w-12 h-12 rounded-full bg-primary text-white shadow-lg flex items-center justify-center"
+    >
+      <div class="notification-badge">3</div>
+      <i class="ri-message-3-fill ri-lg"></i>
+    </button>
+
+
+    <div id="chatWindow" class="chat-window">
+      <div class="p-3 bg-primary text-white flex items-center justify-between">
+        <div class="flex items-center">
+          <img
+            src="https://www.goldmansachs.com/images/migrated/about-us/people-and-leadership/leadership/executive-officers/images/david-solomon-1000x1000.png"
+            alt="Perfil"
+            class="w-8 h-8 rounded-full mr-2 object-cover"
+          />
+          <div>
+            <h4 class="font-medium text-sm">David Solomon</h4>
+            <p class="text-xs opacity-80">En línea</p>
+          </div>
+        </div>
+        <div class="flex items-center">
+          <button
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary-dark text-white"
+          >
+            <i class="ri-phone-line"></i>
+          </button>
+          <button
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary-dark text-white"
+          >
+            <i class="ri-vidicon-line"></i>
+          </button>
+          <button
+            id="closeChat"
+            class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-primary-dark text-white"
+          >
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+      </div>
+      <div
+        class="flex-1 p-3 overflow-y-auto flex flex-col"
+        style="height: 300px;"
+      >
+        <div class="message-bubble message-received">
+          Hi Gianluca, I saw your profile and I am interested in discussing a partnership opportunity.
+        </div>
+        <div class="message-bubble message-sent">
+          Hi David Sure, I'd love to hear more about the collaboration, what's it about?
+        </div>
+        <div class="message-bubble message-received">
+          We are looking for an analyst for Goldman Sachs, are you available for a video call this week?
+        </div>
+        <div class="message-bubble message-sent">
+          Yes, I have availability, is Thursday at 15:00 okay?
+        </div>
+        <div class="message-bubble message-received">
+          Perfect, I'll schedule the meeting and send you the link. thanks
+        </div>
+      </div>
+      <div class="p-3 border-t border-gray-200">
+        <div class="flex items-center">
+          <div class="flex space-x-2 mr-2">
+            <button
+              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600"
+            >
+              <i class="ri-image-line"></i>
+            </button>
+            <button
+              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600"
+            >
+              <i class="ri-file-line"></i>
+            </button>
+            <button
+              class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600"
+            >
+              <i class="ri-emotion-line"></i>
+            </button>
+          </div>
+          <input
+            type="text"
+            class="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm border-none"
+            placeholder="Escribe un mensaje..."
+          />
+          <button
+            class="ml-2 w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white"
+          >
+            <i class="ri-send-plane-fill"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+
+        const tabs = document.querySelectorAll(".profile-tab");
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", function () {
+
+            tabs.forEach((t) => t.classList.remove("active"));
+
+   
+            this.classList.add("active");
+
+
+            const tabContents = document.querySelectorAll(".profile-tab-content");
+            tabContents.forEach((content) => content.classList.remove("active"));
+
+
+            const tabId = this.getAttribute("data-tab");
+            document.getElementById(tabId + "-tab").classList.add("active");
+          });
+        });
+
+
+        const activityChartEl = document.getElementById("activityChart");
+        if (activityChartEl) {
+          const activityChart = echarts.init(activityChartEl);
+          const option = {
+            animation: false,
+            tooltip: {
+              trigger: "axis",
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              borderColor: "#E9ECEF",
+              textStyle: {
+                color: "#1f2937",
+              },
+            },
+            grid: {
+              top: 10,
+              right: 0,
+              bottom: 20,
+              left: 0,
+            },
+            xAxis: {
+              type: "category",
+              data: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+              axisLine: {
+                lineStyle: {
+                  color: "#DEE2E6",
+                },
+              },
+              axisLabel: {
+                color: "#1f2937",
+              },
+            },
+            yAxis: {
+              type: "value",
+              splitLine: {
+                lineStyle: {
+                  color: "#F8F9FA",
+                },
+              },
+              axisLabel: {
+                color: "#1f2937",
+              },
+            },
+            series: [
+              {
+                name: "Vistas del perfil",
+                type: "line",
+                smooth: true,
+                symbol: "none",
+                lineStyle: {
+                  width: 3,
+                  color: "rgba(87, 181, 231, 1)",
+                },
+                areaStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                    {
+                      offset: 0,
+                      color: "rgba(87, 181, 231, 0.3)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(87, 181, 231, 0.1)",
+                    },
+                  ]),
+                },
+                data: [12, 18, 15, 23, 28, 16, 20],
+              },
+            ],
+          };
+          activityChart.setOption(option);
+
+          window.addEventListener("resize", function () {
+            activityChart.resize();
+          });
+        }
+
+
+        const chatButton = document.getElementById("chatButton");
+        const chatWindow = document.getElementById("chatWindow");
+        const closeChat = document.getElementById("closeChat");
+
+        if (chatButton && chatWindow && closeChat) {
+          chatButton.addEventListener("click", function () {
+            chatWindow.style.display = "flex";
+            chatButton.style.display = "none";
+          });
+
+          closeChat.addEventListener("click", function () {
+            chatWindow.style.display = "none";
+            chatButton.style.display = "flex";
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
